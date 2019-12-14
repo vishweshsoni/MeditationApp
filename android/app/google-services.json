@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "676849271821",
+    "firebase_url": "https://meditation-1164d.firebaseio.com",
+    "project_id": "meditation-1164d",
+    "storage_bucket": "meditation-1164d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676849271821:android:995de2e6066dd3346f0144",
+        "android_client_info": {
+          "package_name": "com.vishwesh.meditaion_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "676849271821-putvv18afo63u6tk101pkbruhnt24dg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiW7Ts2WrLn_IRwhVJoymgEoTqQJB6jL0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "676849271821-putvv18afo63u6tk101pkbruhnt24dg2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
