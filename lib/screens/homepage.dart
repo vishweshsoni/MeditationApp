@@ -421,7 +421,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               children: <Widget>[
                 SizedBox(width: MediaQuery.of(context).size.width/50.0,),
-                Text("News",textAlign:TextAlign.left,style: TextStyle(
+                Text("New",textAlign:TextAlign.left,style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 25.0
                 ),),
@@ -1169,7 +1169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Row(
                     children: <Widget>[
                       SizedBox(width: MediaQuery.of(context).size.width/30.0,),
-                      Text("Popular",textAlign:TextAlign.left,style: TextStyle(
+                      Text("New",textAlign:TextAlign.left,style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 25.0
                       ),),

@@ -33,7 +33,22 @@ class _PlayAreaState extends State<PlayArea> {
   }
 
   String localfilePath;
+  void seekToSecond(int second){
+    Duration newDuration = Duration(seconds: second);
 
+    advancedPlayer.seek(newDuration);
+  }
+  Widget slider() {
+    return Slider(
+        value: position.inSeconds.toDouble(),
+        min: 0.0,
+        max: duration.inSeconds.toDouble(),
+        onChanged: (double value) {
+          setState(() {
+            seekToSecond(value.toInt());
+            value = value;
+          });});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,11 +81,14 @@ class _PlayAreaState extends State<PlayArea> {
                       Icons.clear,
                       color: Colors.white,
                     ),
+                    onPressed: (){
+                        Navigator.of(context).pop();
+                    },
                   ),
                 )
               ],
             ),
-            Container(
+             Container(
               margin: EdgeInsets.only(bottom: 90),
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -84,7 +102,7 @@ class _PlayAreaState extends State<PlayArea> {
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: playing
+                      icon: this.playing
                           ? Icon(
                               Icons.pause_circle_outline,
                               color: Colors.white,
@@ -118,12 +136,20 @@ class _PlayAreaState extends State<PlayArea> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 15.0,
-            ),
+
+
+
           ],
         ),
       ),
     );
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    advancedPlayer.stop();
+    super.dispose();
+  }
+
 }
