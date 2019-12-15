@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -8,11 +10,15 @@ class PlayArea extends StatefulWidget {
 }
 
 class _PlayAreaState extends State<PlayArea> {
-  Duration duration = Duration();
-  Duration position = Duration();
   bool playing = false;
-  AudioPlayer advancedPlayer;
   AudioCache audioCache;
+  AudioPlayer audioPlayer;
+  AudioPlayerState _audioPlayerState;
+  Duration  _duration;
+  Duration _position;
+  StreamSubscription _durationSubscription;
+  StreamSubscription _positionSubscription;
+
 
   @override
   void initState() {
@@ -21,34 +27,68 @@ class _PlayAreaState extends State<PlayArea> {
     super.initState();
   }
 
-  void initPlayer() {
-    advancedPlayer = AudioPlayer();
-    audioCache = AudioCache(fixedPlayer: advancedPlayer);
-    advancedPlayer.durationHandler = (d) => setState(() {
-          duration = d;
+  initPlayer() async {
+    audioPlayer = AudioPlayer();
+    audioCache = AudioCache(fixedPlayer: audioPlayer);
+
+
+    _durationSubscription = audioPlayer.onDurationChanged.listen((d){
+       setState(() {
+          this._duration = d;
+
+       });
+    });
+    _positionSubscription= audioPlayer.onAudioPositionChanged.listen((p){
+        setState(() {
+          this._position=p;
         });
-    advancedPlayer.durationHandler = (p) => setState(() {
-          position = p;
-        });
+    });
+
+
+
   }
 
-  String localfilePath;
-  void seekToSecond(int second){
-    Duration newDuration = Duration(seconds: second);
-
-    advancedPlayer.seek(newDuration);
-  }
   Widget slider() {
     return Slider(
-        value: position.inSeconds.toDouble(),
+        value:(_position!=null)?_position.inSeconds.toDouble()
+            : 0.0,
+        activeColor: Colors.white,
+
+        /* position.inSeconds.toDouble(),*/
         min: 0.0,
-        max: duration.inSeconds.toDouble(),
+        max: 100,
+//        max: duration.inSeconds.toDouble(),
         onChanged: (double value) {
           setState(() {
-            seekToSecond(value.toInt());
+
             value = value;
-          });});
+          });
+        });
   }
+
+  play() async {
+    audioCache.play('tune.mp3');
+
+    _durationSubscription = audioPlayer.onDurationChanged.listen((d){
+      setState(() {
+        this._duration = d;
+
+      });
+    });
+    _positionSubscription= audioPlayer.onAudioPositionChanged.listen((p){
+      setState(() {
+        this._position=p;
+      });
+    });
+    print(_duration.toString().split('.').first);
+    print(_position.toString().split('.').first);
+
+  }
+
+  pause() async {
+    audioPlayer.pause();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,64 +121,69 @@ class _PlayAreaState extends State<PlayArea> {
                       Icons.clear,
                       color: Colors.white,
                     ),
-                    onPressed: (){
-                        Navigator.of(context).pop();
+                    onPressed: () {
+                      Navigator.of(context).pop();
                     },
                   ),
                 )
               ],
             ),
-             Container(
-              margin: EdgeInsets.only(bottom: 90),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Image(
-                        image: AssetImage('images/like.png'),
-                      ),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: this.playing
-                          ? Icon(
-                              Icons.pause_circle_outline,
-                              color: Colors.white,
-                              size: 35.0,
-                            )
-                          : Icon(
-                              Icons.play_circle_outline,
-                              color: Colors.white,
-                              size: 35.0,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(16),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Image(
+                              image: AssetImage('images/like.png'),
                             ),
-                      onPressed: () {
-                        if (!this.playing) {
-                          setState(() {
-                            this.playing = true;
-                            audioCache.play('tune.mp3');
-                          });
-                        } else if (this.playing) {
-                          setState(() {
-                            this.playing = false;
-                          });
-                          advancedPlayer.pause();
-                        }
-                      },
-                    ),
-                    IconButton(
-                      icon: Image(
-                        image: AssetImage('images/settings.png'),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: this.playing
+                                ? Icon(
+                                    Icons.pause_circle_outline,
+                                    color: Colors.white,
+                                    size: 35.0,
+                                  )
+                                : Icon(
+                                    Icons.play_circle_outline,
+                                    color: Colors.white,
+                                    size: 35.0,
+                                  ),
+                            onPressed: () async {
+                              if (!this.playing) {
+                                await play();
+                                setState(() {
+                                  this.playing = true;
+                                });
+                              } else if (this.playing) {
+                                await pause();
+                                setState(() {
+                                  this.playing = false;
+                                });
+                              }
+                            },
+                          ),
+                          IconButton(
+                            icon: Image(
+                              image: AssetImage('images/settings.png'),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
+                      slider()
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-
-
-
           ],
         ),
       ),
@@ -148,8 +193,7 @@ class _PlayAreaState extends State<PlayArea> {
   @override
   void dispose() {
     // TODO: implement dispose
-    advancedPlayer.stop();
+    audioPlayer.stop();
     super.dispose();
   }
-
 }
