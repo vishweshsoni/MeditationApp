@@ -24,6 +24,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   cloud_firestore: ^0.13.0+1
+  audioplayers: ^0.13.5
 
 
 dev_dependencies:
@@ -42,6 +43,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/
     - images/girl.png
     - images/book.png
     - images/group.png
@@ -60,6 +62,12 @@ flutter:
     - images/home1.png
     - images/setting.png
     - images/stats.png
+    - images/il1.png
+    - images/bg.png
+    - images/settings.png
+    - images/pause.png
+    - images/like.png
+
 
 
   # To add assets to your application, add an assets section, like this:

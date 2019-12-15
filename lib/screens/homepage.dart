@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:meditaion_app/screens/mentaltraining.dart';
 import 'package:meditaion_app/screens/profile.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -115,11 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),),
                 SizedBox(width: MediaQuery.of(context).size.width/1.8,),
                 GestureDetector(
-                  onTap: ()=>{
-
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MentalTraining()));
                   },
                   child: Text("See All",textAlign:TextAlign.right,style: TextStyle(
-                      fontSize: 19.0,
+                      fontSize: 15.0,
                       color: Colors.blue
                   ),),
                 ),
@@ -426,11 +427,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),),
                 SizedBox(width: MediaQuery.of(context).size.width/1.6,),
                 GestureDetector(
-                  onTap: ()=>{
-
+                  onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MentalTraining()));
                   },
                   child: Text("See All",textAlign:TextAlign.right,style: TextStyle(
-                      fontSize: 19.0,
+                      fontSize: 15.0,
                       color: Colors.blue
                   ),),
                 ),
@@ -864,10 +865,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             fontSize: 25.0
                         ),),
                       SizedBox(width: MediaQuery.of(context).size.width/1.4,),
-                      Text("See All",textAlign:TextAlign.right,style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.blue
-                      ),),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MentalTraining()));
+                        },
+                        child: Text("See All",textAlign:TextAlign.right,style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.blue
+                        ),),
+                      ),
 
                     ],
                   ),
@@ -1168,10 +1174,21 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontSize: 25.0
                       ),),
                       SizedBox(width: MediaQuery.of(context).size.width/1.4,),
-                      Text("See All",textAlign:TextAlign.right,style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.blue
-                      ),),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MentalTraining()));
+                        },
+
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MentalTraining()));
+                          },
+                          child: Text("See All",textAlign:TextAlign.right,style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.blue
+                          ),),
+                        ),
+                      ),
 
                     ],
                   ),
